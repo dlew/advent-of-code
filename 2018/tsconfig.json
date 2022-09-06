@@ -4,7 +4,8 @@
     "target": "es6",
     "esModuleInterop": true,
     "outDir": "dist",
-    "sourceMap": true
+    "sourceMap": true,
+    "strict": true
   },
   "exclude": ["node_modules"]
 }
