@@ -1,3 +1,5 @@
+import { Bounds, getBounds } from "./bounds";
+
 export function largestNonInfiniteArea(coordinates: Array<Coordinate>): number {
   const { left, right, top, bottom } = getBounds(coordinates);
 
@@ -68,22 +70,6 @@ export function safeAreaSize(
   return safeSize;
 }
 
-function getBounds(coordinates: Array<Coordinate>): Bounds {
-  let left = Number.MAX_VALUE;
-  let right = Number.MIN_VALUE;
-  let top = Number.MAX_VALUE;
-  let bottom = Number.MIN_VALUE;
-
-  coordinates.forEach(({ x, y }) => {
-    left = Math.min(left, x);
-    right = Math.max(right, x);
-    top = Math.min(top, y);
-    bottom = Math.max(bottom, y);
-  });
-
-  return new Bounds(left, right, top, bottom);
-}
-
 function findClosestCoordinate(
   x: number,
   y: number,
@@ -134,16 +120,3 @@ export class Coordinate {
   }
 }
 
-class Bounds {
-  readonly left: number;
-  readonly right: number;
-  readonly top: number;
-  readonly bottom: number;
-
-  constructor(left: number, right: number, top: number, bottom: number) {
-    this.left = left;
-    this.right = right;
-    this.top = top;
-    this.bottom = bottom;
-  }
-}
