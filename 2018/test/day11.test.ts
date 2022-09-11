@@ -23,19 +23,11 @@ describe("Day 11", function () {
   });
 
   it("Sample 2", function () {
-    if (process.env.SKIP_SLOW_TESTS) {
-      this.skip();
-    }
-    this.timeout(5_000);
     assert.equal(findMaxPowerGridAny(18), "90,269,16");
     assert.equal(findMaxPowerGridAny(42), "232,251,12");
   });
 
   it("Part 2", function () {
-    if (process.env.SKIP_SLOW_TESTS) {
-      this.skip();
-    }
-    this.timeout(2_500);
     assert.equal(findMaxPowerGridAny(9798), "235,87,13");
   });
 });

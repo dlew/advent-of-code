@@ -29,8 +29,23 @@ export function findMaxPowerGrid3x3(gridSerialNumber: number): string {
 }
 
 export function findMaxPowerGridAny(gridSerialNumber: number): string {
-  // Fill in the grid
-  const grid = generateGrid(gridSerialNumber);
+  // Generate summed area table
+  const sumTable = new Array<Array<number>>(SIZE);
+  for (let x = 0; x < SIZE; x++) {
+    sumTable[x] = new Array<number>(SIZE);
+    for (let y = 0; y < SIZE; y++) {
+      sumTable[x][y] = powerLevel(x + 1, y + 1, gridSerialNumber);
+      if (x !== 0) {
+        sumTable[x][y] += sumTable[x - 1][y];
+      }
+      if (y !== 0) {
+        sumTable[x][y] += sumTable[x][y - 1];
+      }
+      if (x !== 0 && y !== 0) {
+        sumTable[x][y] -= sumTable[x - 1][y - 1];
+      }
+    }
+  }
 
   // Search for max value grid (for any given size)
   // We do this semi-quickly by checking each top-left corner, then expanding
@@ -39,18 +54,12 @@ export function findMaxPowerGridAny(gridSerialNumber: number): string {
   for (let x = 0; x < SIZE; x++) {
     for (let y = 0; y < SIZE; y++) {
       const maxSize = SIZE - Math.max(x, y);
-      let value = 0;
       for (let size = 0; size < maxSize; size++) {
-        const maxX = x + size;
-        const maxY = y + size;
-
-        // Add bottom & right edges to value
-        for (let diff = 0; diff < size; diff++) {
-          value += grid[x + diff][maxY] + grid[maxX][y + diff];
-        }
-
-        // Add bottom-right corner
-        value += grid[maxX][maxY];
+        const value =
+          sumTable[x + size][y + size] +
+          sumTable[x][y] -
+          sumTable[x + size][y] -
+          sumTable[x][y + size];
 
         // Check if this is the highest-value grid now
         if (max.value < value) {
@@ -63,7 +72,7 @@ export function findMaxPowerGridAny(gridSerialNumber: number): string {
     }
   }
 
-  return `${max.x + 1},${max.y + 1},${max.size + 1}`;
+  return `${max.x + 2},${max.y + 2},${max.size}`;
 }
 
 function generateGrid(gridSerialNumber: number): Array<Array<number>> {
