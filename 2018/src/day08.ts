@@ -62,11 +62,8 @@ function parseNode(
 }
 
 class LicenseNode {
-  readonly children: Array<LicenseNode>;
-  readonly metadata: Array<number>;
-
-  constructor(children: Array<LicenseNode>, metadata: Array<number>) {
-    this.children = children;
-    this.metadata = metadata;
-  }
+  constructor(
+    readonly children: Array<LicenseNode>,
+    readonly metadata: Array<number>
+  ) {}
 }

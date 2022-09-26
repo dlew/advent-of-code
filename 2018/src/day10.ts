@@ -53,17 +53,12 @@ export function parseLight(text: string): Light {
 }
 
 export class Light {
-  x: number;
-  y: number;
-  readonly dx: number;
-  readonly dy: number;
-
-  constructor(x: number, y: number, dx: number, dy: number) {
-    this.x = x;
-    this.y = y;
-    this.dx = dx;
-    this.dy = dy;
-  }
+  constructor(
+    public x: number,
+    public y: number,
+    readonly dx: number,
+    readonly dy: number
+  ) {}
 
   move() {
     this.x += this.dx;

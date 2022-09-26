@@ -112,11 +112,5 @@ export function parseGraph(text: string): Array<Edge> {
 }
 
 class Edge {
-  readonly from: string;
-  readonly to: string;
-
-  constructor(from: string, to: string) {
-    this.from = from;
-    this.to = to;
-  }
+  constructor(readonly from: string, readonly to: string) {}
 }

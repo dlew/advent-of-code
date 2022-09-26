@@ -67,29 +67,15 @@ function calculateSleep(records: Record[]): Map<number, Array<number>> {
 export type Record = BeginShift | FallAsleep | WakeUp;
 
 export class BeginShift {
-  readonly timestamp: Date;
-  readonly id: number;
-
-  constructor(timestamp: Date, id: number) {
-    this.timestamp = timestamp;
-    this.id = id;
-  }
+  constructor(readonly timestamp: Date, readonly id: number) {}
 }
 
 export class FallAsleep {
-  readonly timestamp: Date;
-
-  constructor(timestamp: Date) {
-    this.timestamp = timestamp;
-  }
+  constructor(readonly timestamp: Date) {}
 }
 
 export class WakeUp {
-  readonly timestamp: Date;
-
-  constructor(timestamp: Date) {
-    this.timestamp = timestamp;
-  }
+  constructor(readonly timestamp: Date) {}
 }
 
 const regex =

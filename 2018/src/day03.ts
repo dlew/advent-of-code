@@ -62,23 +62,11 @@ export function parseClaim(claim: string): Claim {
 }
 
 export class Claim {
-  readonly id: number;
-  readonly left: number;
-  readonly top: number;
-  readonly width: number;
-  readonly height: number;
-
   constructor(
-    id: number,
-    left: number,
-    top: number,
-    width: number,
-    height: number
-  ) {
-    this.id = id;
-    this.left = left;
-    this.top = top;
-    this.width = width;
-    this.height = height;
-  }
+    readonly id: number,
+    readonly left: number,
+    readonly top: number,
+    readonly width: number,
+    readonly height: number
+  ) {}
 }

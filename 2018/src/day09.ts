@@ -63,11 +63,8 @@ function removeMarble(marble: Marble) {
 }
 
 class Marble {
-  readonly value: number;
   prev: Marble = this;
   next: Marble = this;
 
-  constructor(value: number) {
-    this.value = value;
-  }
+  constructor(readonly value: number) {}
 }
