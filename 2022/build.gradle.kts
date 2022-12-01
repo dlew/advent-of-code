@@ -5,14 +5,12 @@ plugins {
 repositories {
     mavenCentral()
 }
+dependencies {
+    implementation("junit:junit:4.13.2")
+    implementation("com.google.guava:guava:31.1-jre")
+}
 
 tasks {
-    sourceSets {
-        main {
-            java.srcDirs("src")
-        }
-    }
-
     wrapper {
         gradleVersion = "7.6"
     }
