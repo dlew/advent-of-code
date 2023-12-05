@@ -33,3 +33,7 @@ fun CharArray.toIntList(): List<Int> {
 fun List<String>.toIntList(): List<Int> {
   return map { it.trim().toInt() }
 }
+
+fun List<String>.toLongList(): List<Long> {
+  return map { it.trim().toLong() }
+}
