@@ -4,78 +4,30 @@ object Day10 {
 
   private data class Pos(val x: Int, val y: Int)
 
-  private enum class State { OUTSIDE, PIPE, UNKNOWN }
-
   fun part1(input: String) = findLoop(input.splitNewlines()).size / 2
 
   fun part2(input: String): Int {
     val grid = input.splitNewlines()
-    val loop = findLoop(grid)
+    val loop = findLoop(grid).toSet()
 
-    // Expand each tile to a 3x3 grid
-    val expandedGrid = (0..<grid.size * 3).map { Array(grid[0].length * 3) { State.UNKNOWN } }
-
-    // Draw the pipes (connecting the new expanded spots between)
-    (loop + listOf(loop.first())).zipWithNext().forEach { (start, end) ->
-      val expandedY = 1 + start.y * 3
-      val expandedX = 1 + start.x * 3
-
-      expandedGrid[expandedY][expandedX] = State.PIPE
-      when (end) {
-        start.copy(y = start.y - 1) -> {
-          expandedGrid[expandedY - 1][expandedX] = State.PIPE
-          expandedGrid[expandedY - 2][expandedX] = State.PIPE
+    // Every time we hit a wall, switch parity, only count those inside
+    // Kind of tricksy because we can't count all corners for parity checking
+    var total = 0
+    var parity = false
+    grid.forEachIndexed { y, row ->
+      row.forEachIndexed { x, c ->
+        if (Pos(x, y) in loop) {
+          if (c == '|' || c == 'L' || c == 'J') {
+            parity = !parity
+          }
         }
-
-        start.copy(x = start.x + 1) -> {
-          expandedGrid[expandedY][expandedX + 1] = State.PIPE
-          expandedGrid[expandedY][expandedX + 2] = State.PIPE
-        }
-
-        start.copy(y = start.y + 1) -> {
-          expandedGrid[expandedY + 1][expandedX] = State.PIPE
-          expandedGrid[expandedY + 2][expandedX] = State.PIPE
-        }
-
-        start.copy(x = start.x - 1) -> {
-          expandedGrid[expandedY][expandedX - 1] = State.PIPE
-          expandedGrid[expandedY][expandedX - 2] = State.PIPE
+        else if (parity) {
+          total++
         }
       }
     }
 
-    // Flood fill the outside tiles on the expanded grid
-    val queue = mutableListOf(Pos(0, 0))
-    val marked = queue.toMutableSet()
-    val yRange = expandedGrid.indices
-    val xRange = expandedGrid[0].indices
-    while (queue.isNotEmpty()) {
-      val currPos = queue.removeAt(0)
-
-      expandedGrid[currPos.y][currPos.x] = State.OUTSIDE
-
-      val explore = listOf(
-        currPos.copy(y = currPos.y - 1),
-        currPos.copy(x = currPos.x + 1),
-        currPos.copy(y = currPos.y + 1),
-        currPos.copy(x = currPos.x - 1)
-      ).filter {
-        it !in marked
-            && it.x in xRange
-            && it.y in yRange
-            && expandedGrid[it.y][it.x] != State.PIPE
-      }
-
-      marked.addAll(explore)
-      queue.addAll(explore)
-    }
-
-    // Count key grid spaces for insiders
-    return yRange.step(3).sumOf { y ->
-      xRange.step(3).count { x ->
-        expandedGrid[y + 1][x + 1] == State.UNKNOWN
-      }
-    }
+    return total
   }
 
   private fun findLoop(grid: Grid): List<Pos> {
