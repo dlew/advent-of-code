@@ -10,3 +10,5 @@ enum class Direction {
   W,
   NW
 }
+
+val CARDINAL_DIRECTIONS = listOf(Direction.N, Direction.E, Direction.S, Direction.W)
