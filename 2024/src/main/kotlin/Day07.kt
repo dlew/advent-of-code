@@ -15,35 +15,27 @@ object Day07 {
       .sum()
   }
 
-  private enum class Operator {
-    ADD,
-    MULTIPLY,
-    CONCATENATE
-  }
-
   private data class Equation(val test: Long, val numbers: List<Long>)
 
   private fun canCalibrate(test: Long, numbers: List<Long>, allowConcatenation: Boolean): Boolean {
-    // Base cases / early exits
-    when {
-      numbers.size == 1 -> return test == numbers[0]
-      test < numbers[0] -> return false
+    val last = numbers.last()
+
+    if (numbers.size == 1) {
+      return test == last
     }
 
-    // Try all possible operators on the equation
-    return Operator.entries.any { op ->
-      val (a, b) = numbers
-      val eval = when (op) {
-        Operator.ADD -> a + b
-        Operator.MULTIPLY -> a * b
-        Operator.CONCATENATE -> {
-          if (!allowConcatenation) return@any false
-          // No, I didn't think of this myself, but I think it's a cool optimization
-          (a * 10.0.pow(ceil(log(b + 1.0, 10.0))) + b).toLong()
-        }
+    if (allowConcatenation) {
+      val offset = 10.0.pow(ceil(log(last + 1.0, 10.0))).toLong()
+      if (test % offset == last && canCalibrate(test / offset, numbers.dropLast(1), true)) {
+        return true
       }
-      return@any canCalibrate(test, listOf(eval) + numbers.drop(2), allowConcatenation)
     }
+
+    if (test % last == 0L && canCalibrate(test / last, numbers.dropLast(1), allowConcatenation)) {
+      return true
+    }
+
+    return canCalibrate(test - last, numbers.dropLast(1), allowConcatenation)
   }
 
   private fun parse(input: String): List<Equation> {
