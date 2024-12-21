@@ -1,27 +1,32 @@
 object Day09 {
-  fun part1(input: String) = parse(input).compactByBlock().checksum()
+  // Optimized (if a bit ugly) solution: computes each block's value inline (no disk manipulation needed)
+  fun part1(input: String): Long {
+    val disk = parse(input)
+    var total = 0L
+    var left = 0
+    var right = disk.size - 1
+    while(left <= right) {
+      val block = disk[left]
+      if (block != null) {
+        total += block * left
+      }
+      else {
+        var rightBlock = disk[right]
+        while (rightBlock == null) {
+          rightBlock = disk[--right]
+        }
+        total += rightBlock * left
+        right--
+      }
+      left++
+    }
+    return total
+  }
 
   fun part2(input: String) = parse(input).compactByFile().checksum()
 
-  private fun List<Int?>.compactByBlock(): List<Int?> {
-    val disk = toMutableList()
-    var left = 0
-    var right = disk.size - 1
-    while (left < right) {
-      if (disk[left] != null) {
-        left++
-      } else if (disk[right] == null) {
-        right--
-      } else {
-        disk[left] = disk[right]
-        disk[right] = null
-      }
-    }
-    return disk
-  }
-
-  private fun List<Int?>.compactByFile(): List<Int?> {
-    val disk = toTypedArray()
+  private fun Array<Int?>.compactByFile(): List<Int?> {
+    val disk = this
     var left = 0
     var right = disk.size - 1
     while (left < right) {
@@ -48,6 +53,7 @@ object Day09 {
             if (numFree == fileSize) {
               disk.fill(value, pos - numFree + 1, pos + 1)
               disk.fill(null, fileStart, fileStart + fileSize)
+              right = fileStart - 1
               break
             }
           }
@@ -73,12 +79,12 @@ object Day09 {
       .sumOf { (index, value) -> index * value }
   }
 
-  private fun parse(input: String): List<Int?> {
+  private fun parse(input: String): Array<Int?> {
     var id = 0
     return input.flatMapIndexed { index, c ->
       val size = c.digitToInt()
       if (index % 2 == 0) List<Int?>(size) { id }.also { id++ }
       else List<Int?>(size) { null }
-    }
+    }.toTypedArray()
   }
 }
