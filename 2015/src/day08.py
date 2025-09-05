@@ -14,8 +14,8 @@ _ENCODE = re.compile(r"[\\\"]")
 
 
 def _decode_score(string: str) -> int:
-    return len(string) - len(_DECODE.sub('.', string)) + 2
+    return len(string) - len(_DECODE.sub(".", string)) + 2
 
 
 def _encode_score(string: str) -> int:
-    return len(_ENCODE.sub('..', string)) + 2 - len(string)
+    return len(_ENCODE.sub("..", string)) + 2 - len(string)

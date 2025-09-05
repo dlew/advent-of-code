@@ -13,9 +13,11 @@ def _is_nice(line: str) -> bool:
     three_vowels = re.compile(r"(.*[aeiou].*){3,}")
     double_letter = re.compile(r"(\w)\1+")
     forbidden = re.compile(r"ab|cd|pq|xy")
-    return (re.match(three_vowels, line) is not None
-            and re.search(double_letter, line) is not None
-            and re.search(forbidden, line) is None)
+    return (
+        re.match(three_vowels, line) is not None
+        and re.search(double_letter, line) is not None
+        and re.search(forbidden, line) is None
+    )
 
 
 def _is_nicer(line: str) -> bool:
@@ -32,4 +34,4 @@ def _is_nicer(line: str) -> bool:
 
 
 def _window(s: str, size: int) -> list[str]:
-    return [s[i:i+size] for i in range(len(s) - size + 1)]
+    return [s[i : i + size] for i in range(len(s) - size + 1)]

@@ -12,10 +12,10 @@ def _password_to_code(password: str) -> list[int]:
 
 
 def _code_to_password(code: list[int]) -> str:
-    return ''.join([chr(d) for d in code])
+    return "".join([chr(d) for d in code])
 
 
-_BANNED_LETTERS = set([ord(c) for c in ['i', 'o', 'l']])
+_BANNED_LETTERS = set([ord(c) for c in ["i", "o", "l"]])
 
 
 def _remove_banned_letters(code: list[int]) -> list[int]:
@@ -67,4 +67,3 @@ def _valid_password(code: list[int]) -> bool:
         straight_last = c
 
     return longest_straight >= 3 and doubles >= 2
-

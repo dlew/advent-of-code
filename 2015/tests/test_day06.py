@@ -9,7 +9,7 @@ class Test(TestCase):
         instructions = [
             "turn on 0,0 through 999,999",
             "toggle 0,0 through 999,0",
-            "turn off 499,499 through 500,500"
+            "turn off 499,499 through 500,500",
         ]
         self.assertEqual(998_996, day6_part1("\n".join(instructions)))
 

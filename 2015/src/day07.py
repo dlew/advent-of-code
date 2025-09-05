@@ -56,7 +56,9 @@ def day7_part2(data: str) -> dict[str, int]:
     commands = _parse(data)
     first_run = _execute(commands)
 
-    override_commands = [c for c in commands if not isinstance(c, _ValueSignal) or c.out_wire != 'b']
+    override_commands = [
+        c for c in commands if not isinstance(c, _ValueSignal) or c.out_wire != "b"
+    ]
     override_commands.append(_ValueSignal(first_run["a"], "b"))
     return _execute(override_commands)
 
@@ -83,11 +85,19 @@ def _execute(commands: list) -> dict[str, int]:
                 wires[command.out_wire] = ~wires[command.in_wire] & 65535
                 used_commands.add(command)
 
-            elif isinstance(command, _LogicGate) and command.in_left_wire in wires and command.in_right_wire in wires:
+            elif (
+                isinstance(command, _LogicGate)
+                and command.in_left_wire in wires
+                and command.in_right_wire in wires
+            ):
                 if command.operation == _Operation.AND:
-                    wires[command.out_wire] = wires[command.in_left_wire] & wires[command.in_right_wire]
+                    wires[command.out_wire] = (
+                        wires[command.in_left_wire] & wires[command.in_right_wire]
+                    )
                 else:
-                    wires[command.out_wire] = wires[command.in_left_wire] | wires[command.in_right_wire]
+                    wires[command.out_wire] = (
+                        wires[command.in_left_wire] | wires[command.in_right_wire]
+                    )
                 used_commands.add(command)
 
             elif isinstance(command, _Shift) and command.in_wire in wires:
@@ -131,7 +141,9 @@ def _parse(data: str) -> list:
         and_or_match = and_or_pattern.match(line)
         if and_or_match is not None:
             in_left_wire, operation, in_right_wire, out_wire = and_or_match.groups()
-            commands.append(_LogicGate(in_left_wire, _Operation[operation], in_right_wire, out_wire))
+            commands.append(
+                _LogicGate(in_left_wire, _Operation[operation], in_right_wire, out_wire)
+            )
 
             # Tricky: sometimes the left "in" is a number; simulate using a value signal
             if in_left_wire.isdigit():

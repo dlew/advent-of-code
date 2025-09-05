@@ -8,12 +8,12 @@ class Test(TestCase):
     def test_day12_part1_sample(self):
         self.assertEqual(6, day12_part1("[1,2,3]"))
         self.assertEqual(6, day12_part1('{"a":2,"b":4}'))
-        self.assertEqual(3, day12_part1('[[[3]]]'))
+        self.assertEqual(3, day12_part1("[[[3]]]"))
         self.assertEqual(3, day12_part1('{"a":{"b":4},"c":-1}'))
         self.assertEqual(0, day12_part1('{"a":[-1,1]}'))
         self.assertEqual(0, day12_part1('[-1,{"a":1}]'))
-        self.assertEqual(0, day12_part1('[]'))
-        self.assertEqual(0, day12_part1('{}'))
+        self.assertEqual(0, day12_part1("[]"))
+        self.assertEqual(0, day12_part1("{}"))
 
     def test_day12_part1(self):
         self.assertEqual(156366, day12_part1(read_file("inputs/day12.txt")))

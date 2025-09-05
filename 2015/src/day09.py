@@ -3,15 +3,25 @@ import re
 
 def day9_part1(data: str) -> int:
     graph = _parse_graph(data)
-    return min([_traversal(graph, start, set(), 0, True) for start in list(graph.keys())])
+    return min(
+        [_traversal(graph, start, set(), 0, True) for start in list(graph.keys())]
+    )
 
 
 def day9_part2(data: str) -> int:
     graph = _parse_graph(data)
-    return max([_traversal(graph, start, set(), 0, False) for start in list(graph.keys())])
+    return max(
+        [_traversal(graph, start, set(), 0, False) for start in list(graph.keys())]
+    )
 
 
-def _traversal(graph: dict[str, dict[str, int]], curr: str, used: set[str], cost: int, minimize: bool) -> int:
+def _traversal(
+    graph: dict[str, dict[str, int]],
+    curr: str,
+    used: set[str],
+    cost: int,
+    minimize: bool,
+) -> int:
     if len(graph) == len(used) + 1:
         return cost
 

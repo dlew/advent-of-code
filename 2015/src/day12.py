@@ -17,7 +17,7 @@ def _traverse(obj: object, ignore_red: bool) -> int:
         return sum([_traverse(element, ignore_red) for element in obj])
 
     if isinstance(obj, dict):
-        if ignore_red and 'red' in list(obj.keys()) + list(obj.values()):
+        if ignore_red and "red" in list(obj.keys()) + list(obj.values()):
             return 0
 
         return sum([_traverse(obj[element], ignore_red) for element in obj])
