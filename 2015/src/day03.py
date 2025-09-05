@@ -7,7 +7,7 @@ class _Point:
     x: int
     y: int
 
-    def move(self, direction: str):
+    def move(self, direction: str) -> "_Point":
         match direction:
             case "^":
                 return dataclasses.replace(self, y=self.y - 1)
@@ -17,6 +17,7 @@ class _Point:
                 return dataclasses.replace(self, y=self.y + 1)
             case "<":
                 return dataclasses.replace(self, x=self.x - 1)
+        raise ValueError(f"Invalid direction: ${direction}")
 
 
 def day3_part1(data: str) -> int:

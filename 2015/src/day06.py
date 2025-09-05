@@ -1,12 +1,14 @@
 import re
 
+from utils import raise_none
+
 _PATTERN = re.compile(r"(.*) (\d+),(\d+) through (\d+),(\d+)")
 
 
 def day6_part1(data: str) -> int:
     grid = [[False] * 1000 for _ in range(1000)]
     for line in data.splitlines():
-        action, start_x, start_y, end_x, end_y = _PATTERN.match(line).groups()
+        action, start_x, start_y, end_x, end_y = raise_none(_PATTERN.match(line)).groups()
         for x in range(int(start_x), int(end_x) + 1):
             for y in range(int(start_y), int(end_y) + 1):
                 match action:
@@ -26,7 +28,7 @@ def day6_part1(data: str) -> int:
 def day6_part2(data: str) -> int:
     grid = [[0] * 1000 for _ in range(1000)]
     for line in data.splitlines():
-        action, start_x, start_y, end_x, end_y = _PATTERN.match(line).groups()
+        action, start_x, start_y, end_x, end_y = raise_none(_PATTERN.match(line)).groups()
         for x in range(int(start_x), int(end_x) + 1):
             for y in range(int(start_y), int(end_y) + 1):
                 match action:

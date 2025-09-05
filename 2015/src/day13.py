@@ -1,6 +1,8 @@
 import itertools
 import re
 
+from utils import raise_none
+
 
 def day13_part1(data: str) -> int:
     matrix = _parse(data)
@@ -51,7 +53,7 @@ def _parse(data: str) -> dict[str, dict[str, int]]:
         r"(\w+) would (gain|lose) (\d+) happiness units by sitting next to (\w+)\."
     )
     for line in data.splitlines():
-        match = pattern.match(line)
+        match = raise_none(pattern.match(line))
         person, gain_or_loss, units, target = match.groups()
         value = int(units) if gain_or_loss == "gain" else -int(units)
         if person not in matrix:

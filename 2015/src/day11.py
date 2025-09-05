@@ -38,6 +38,7 @@ def _iterate_password(code: list[int]) -> list[int]:
         else:
             new_code[index] += 1
             return new_code
+    raise RuntimeError("How did you get here?!?")
 
 
 def _valid_password(code: list[int]) -> bool:

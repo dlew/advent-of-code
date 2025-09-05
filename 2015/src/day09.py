@@ -1,5 +1,7 @@
 import re
 
+from utils import raise_none
+
 
 def day9_part1(data: str) -> int:
     graph = _parse_graph(data)
@@ -41,7 +43,7 @@ def _parse_graph(data: str) -> dict[str, dict[str, int]]:
     pattern = re.compile(r"(\w+) to (\w+) = (\d+)")
     graph = {}
     for line in data.splitlines():
-        match = pattern.match(line)
+        match = raise_none(pattern.match(line))
         start, end, distance = match.groups()
 
         if start not in graph:

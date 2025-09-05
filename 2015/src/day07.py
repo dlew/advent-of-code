@@ -2,6 +2,8 @@ import re
 from dataclasses import dataclass
 from enum import auto, StrEnum
 
+from utils import raise_none
+
 
 class _Direction(StrEnum):
     L = auto()
@@ -21,7 +23,7 @@ class _ValueSignal:
 
 @dataclass(frozen=True)
 class _WireSignal:
-    in_wire: int
+    in_wire: str
     out_wire: str
 
 
@@ -151,7 +153,7 @@ def _parse(data: str) -> list:
 
             continue
 
-        shift_match = shift_pattern.match(line)
+        shift_match = raise_none(shift_pattern.match(line))
         in_wire, direction, shift, out_wire = shift_match.groups()
         commands.append(_Shift(in_wire, _Direction[direction], int(shift), out_wire))
 
