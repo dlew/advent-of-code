@@ -1,0 +1,7 @@
+[project]
+name = "2015"
+requires-python = ">=3.13"
+dependencies = []
+
+[tool.poetry]
+package-mode = false
